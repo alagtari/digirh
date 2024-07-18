@@ -5,6 +5,8 @@ workflows:
     max_build_duration: 20
     instance_type: mac_mini_m1
     environment:
+      # android_signing:
+      #   - STBReleaseKey
       vars:
         PROJECT: Digirh
       flutter: stable
@@ -41,7 +43,7 @@ workflows:
           - agtari957@gmail.com
 
   staging-ios-workflow:
-    name: iOS Build
+    name: Ios Build
     max_build_duration: 20
     instance_type: mac_mini_m1
     environment:
@@ -49,7 +51,7 @@ workflows:
         distribution_type: ad_hoc
         bundle_identifier: com.stb.digirh
       flutter: stable
-      xcode: latest
+      xcode: latest 
     cache:
       cache_paths:
         - ~/.pub-cache
@@ -65,7 +67,7 @@ workflows:
         script: |
           rm pubspec.lock
           flutter packages pub get
-      - name: Use the profile in Xcode
+      - name: Use the profile in xcode
         script: |
           xcode-project use-profiles
       - name: Get Flutter packages
@@ -80,8 +82,8 @@ workflows:
       - name: Build IPA with Flutter
         script: | 
           flutter build ipa --release 
-      - name: Sign IPA with Xcode
+      - name: Sign IPA with xcode
         script: |
-          xcode-project build-ipa --workspace "ios/Runner.xcworkspace" --scheme "Runner"
+          xcode-project build-ipa --workspace "ios/Runner.xcworkspace" --scheme "Runner" --allowProvisioningUpdates
     artifacts:
       - ./build/ios/ipa/*.ipa
