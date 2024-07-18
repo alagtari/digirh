@@ -6,7 +6,7 @@ workflows:
     instance_type: mac_mini_m1
     environment:
       android_signing:
-        - TagamutaValleyReleaseKey
+        - STBReleaseKey
       vars:
         PROJECT: Digirh
 
