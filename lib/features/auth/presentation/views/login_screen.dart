@@ -18,7 +18,7 @@ class LoginScreen extends StatefulWidget implements AutoRouteWrapper {
   const LoginScreen({super.key});
 
   @override
-  _LoginScreenState createState() => _LoginScreenState();
+  LoginScreenState createState() => LoginScreenState();
 
   @override
   Widget wrappedRoute(BuildContext context) => BlocProvider(
@@ -27,7 +27,7 @@ class LoginScreen extends StatefulWidget implements AutoRouteWrapper {
       );
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class LoginScreenState extends State<LoginScreen> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 

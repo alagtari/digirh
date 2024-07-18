@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:digirh/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+// ignore: depend_on_referenced_packages
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:digirh/core/common_used/app_prefs.dart';
 import 'package:digirh/core/injection/injection_container.dart';

@@ -19,7 +19,6 @@ class _DemandeCongeScreenState extends State<DemandeCongeScreen> {
   final TextEditingController controller = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    var usernameController;
     return SafeArea(
       child: Container(
         color: Theme.of(context).scaffoldBackgroundColor,
