@@ -1,0 +1,114 @@
+workflows:
+  #--------------STAGING--------------
+  staging-android-workflow:
+    name: Android Build
+    max_build_duration: 20
+    instance_type: mac_mini_m1
+    environment:
+      android_signing:
+        - TagamutaValleyReleaseKey
+      vars:
+        PROJECT: Digirh
+
+      flutter: stable
+      xcode: latest
+    cache:
+      cache_paths:
+        - ~/.pub-cache
+    triggering:
+      events:
+        - push
+      branch_patterns:
+        - pattern: 'staging'
+          include: true
+          source: true
+    scripts:
+      - name: Set up local.properties
+        script: |
+          echo "flutter.sdk=$HOME/programs/flutter" > "$CM_BUILD_DIR/android/local.properties"
+      - name: Get Flutter packages
+        script: |
+          flutter packages pub get
+      - name: Build APK with Flutter
+        script: |
+          flutter build apk --release --obfuscate --split-debug-info=./
+      - name: Move the build into root directory
+        script: |
+          mv "build/app/outputs/apk/release/app-release.apk" "./$PROJECT-release.apk"
+    artifacts:
+      - ./*.apk
+      - ./app.*.symbols
+
+    publishing:
+      slack:
+        channel: '#mobile-builds'
+        notify_on_build_start: false
+        notify:
+          success: true
+          failure: false
+
+      email:
+        recipients:
+          - agtari957@gmail.com
+
+  staging-ios-workflow:
+    name: Ios Build
+    max_build_duration: 20
+    instance_type: mac_mini_m1
+    environment:
+      ios_signing:
+        distribution_type: app_store
+        bundle_identifier: com.stb.Digirh
+      flutter: stable
+      xcode: latest
+      vars:
+        APP_ID: 1666580123
+    cache:
+      cache_paths:
+        - ~/.pub-cache
+    triggering:
+      events:
+        - push
+      branch_patterns:
+        - pattern: 'staging'
+          include: true
+          source: true
+    scripts:
+      - name: Clean cache
+        script: |
+          rm pubspec.lock
+          flutter packages pub get
+      - name: Use the profile in xcode
+        script: |
+          xcode-project use-profiles
+      - name: Get Flutter packages
+        script: |
+          flutter pub get
+      - name: Update Firebase/CoreOnly dependency
+        script: |
+          find . -name "Podfile" -execdir pod update Firebase/CoreOnly \;
+      - name: Pod install
+        script: |
+          find . -name "Podfile" -execdir pod install \;
+      - name: Build IPA with Flutter
+        script: | 
+          BUILD_NUMBER=$(($(app-store-connect get-latest-app-store-build-number "$APP_ID") + 1))
+          flutter build ipa --release \
+            --build-name=0.0.$BUILD_NUMBER \
+            --build-number=$BUILD_NUMBER
+      - name: Sign IPA with xcode
+        script: |
+          xcode-project build-ipa --workspace "ios/Runner.xcworkspace" --scheme "Runner"
+
+    artifacts:
+      - ./build/ios/ipa/*.ipa
+
+    integrations:
+      app_store_connect: AppStoreKeyNew
+
+    publishing:
+      app_store_connect:
+        auth: integration
+        submit_to_testflight: true
+        beta_groups: 
+          - Internal STB Testers
