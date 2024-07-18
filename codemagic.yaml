@@ -85,11 +85,13 @@ workflows:
         script: |
           find . -name "Podfile" -execdir pod install \;
       - name: Build IPA with Flutter
+        # script: | 
+        #   BUILD_NUMBER=$(($(app-store-connect get-latest-app-store-build-number "$APP_ID") + 1))
+        #   flutter build ipa --release \
+        #     --build-name=0.0.$BUILD_NUMBER \
+        #     --build-number=$BUILD_NUMBER
         script: | 
-          BUILD_NUMBER=$(($(app-store-connect get-latest-app-store-build-number "$APP_ID") + 1))
-          flutter build ipa --release \
-            --build-name=0.0.$BUILD_NUMBER \
-            --build-number=$BUILD_NUMBER
+          flutter build ipa --release 
       - name: Sign IPA with xcode
         script: |
           xcode-project build-ipa --workspace "ios/Runner.xcworkspace" --scheme "Runner"
