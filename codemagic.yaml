@@ -1,12 +1,9 @@
 workflows:
-  #--------------STAGING--------------
   staging-android-workflow:
     name: Android Build
     max_build_duration: 20
     instance_type: mac_mini_m1
     environment:
-      # android_signing:
-      #   - STBReleaseKey
       vars:
         PROJECT: Digirh
       flutter: stable
@@ -28,6 +25,12 @@ workflows:
       - name: Get Flutter packages
         script: |
           flutter packages pub get
+      - name: Upgrade Flutter packages
+        script: |
+          flutter pub upgrade
+      - name: Clean the build
+        script: |
+          flutter clean
       - name: Build APK with Flutter
         script: |
           flutter build apk --release --obfuscate --split-debug-info=./
@@ -41,6 +44,7 @@ workflows:
       email:
         recipients:
           - agtari957@gmail.com
+
 
   staging-ios-workflow:
     name: Ios Build
