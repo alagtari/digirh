@@ -53,7 +53,7 @@ workflows:
       #   distribution_type: app_store
         bundle_identifier: com.stb.digirh
       flutter: stable
-      xcode: latest
+      xcode: latest 
       # vars:
       #   APP_ID: 1666580123
     cache:
