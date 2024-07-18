@@ -5,8 +5,8 @@ workflows:
     max_build_duration: 20
     instance_type: mac_mini_m1
     environment:
-      android_signing:
-        - STBReleaseKey
+      # android_signing:
+      #   - STBReleaseKey
       vars:
         PROJECT: Digirh
 
@@ -40,13 +40,6 @@ workflows:
       - ./app.*.symbols
 
     publishing:
-      slack:
-        channel: '#mobile-builds'
-        notify_on_build_start: false
-        notify:
-          success: true
-          failure: false
-
       email:
         recipients:
           - agtari957@gmail.com
@@ -56,13 +49,13 @@ workflows:
     max_build_duration: 20
     instance_type: mac_mini_m1
     environment:
-      ios_signing:
-        distribution_type: app_store
-        bundle_identifier: com.stb.Digirh
+      # ios_signing:
+      #   distribution_type: app_store
+      #   bundle_identifier: com.stb.Digirh
       flutter: stable
       xcode: latest
-      vars:
-        APP_ID: 1666580123
+      # vars:
+      #   APP_ID: 1666580123
     cache:
       cache_paths:
         - ~/.pub-cache
@@ -103,12 +96,12 @@ workflows:
     artifacts:
       - ./build/ios/ipa/*.ipa
 
-    integrations:
-      app_store_connect: AppStoreKeyNew
+    # integrations:
+    #   app_store_connect: AppStoreKeyNew
 
-    publishing:
-      app_store_connect:
-        auth: integration
-        submit_to_testflight: true
-        beta_groups: 
-          - Internal STB Testers
+    # publishing:
+    #   app_store_connect:
+    #     auth: integration
+    #     submit_to_testflight: true
+    #     beta_groups: 
+    #       - Internal STB Testers
