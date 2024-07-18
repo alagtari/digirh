@@ -5,11 +5,8 @@ workflows:
     max_build_duration: 20
     instance_type: mac_mini_m1
     environment:
-      # android_signing:
-      #   - STBReleaseKey
       vars:
         PROJECT: Digirh
-
       flutter: stable
       xcode: latest
     cache:
@@ -38,25 +35,21 @@ workflows:
     artifacts:
       - ./*.apk
       - ./app.*.symbols
-
     publishing:
       email:
         recipients:
           - agtari957@gmail.com
 
   staging-ios-workflow:
-    name: Ios Build
+    name: iOS Build
     max_build_duration: 20
     instance_type: mac_mini_m1
     environment:
-      # ios_signing:
-      #   # distribution_type: app_store
-      #   distribution_type: ad_hoc
-      #   bundle_identifier: com.stb.digirh
+      ios_signing:
+        distribution_type: ad_hoc
+        bundle_identifier: com.stb.digirh
       flutter: stable
-      xcode: latest 
-      # vars:
-      #   APP_ID: 1666580123
+      xcode: latest
     cache:
       cache_paths:
         - ~/.pub-cache
@@ -72,7 +65,7 @@ workflows:
         script: |
           rm pubspec.lock
           flutter packages pub get
-      - name: Use the profile in xcode
+      - name: Use the profile in Xcode
         script: |
           xcode-project use-profiles
       - name: Get Flutter packages
@@ -85,26 +78,10 @@ workflows:
         script: |
           find . -name "Podfile" -execdir pod install \;
       - name: Build IPA with Flutter
-        # script: | 
-        #   BUILD_NUMBER=$(($(app-store-connect get-latest-app-store-build-number "$APP_ID") + 1))
-        #   flutter build ipa --release \
-        #     --build-name=0.0.$BUILD_NUMBER \
-        #     --build-number=$BUILD_NUMBER
         script: | 
           flutter build ipa --release 
-      - name: Sign IPA with xcode
+      - name: Sign IPA with Xcode
         script: |
           xcode-project build-ipa --workspace "ios/Runner.xcworkspace" --scheme "Runner"
-
     artifacts:
       - ./build/ios/ipa/*.ipa
-
-    # integrations:
-    #   app_store_connect: AppStoreKeyNew
-
-    # publishing:
-    #   app_store_connect:
-    #     auth: integration
-    #     submit_to_testflight: true
-    #     beta_groups: 
-    #       - Internal STB Testers
