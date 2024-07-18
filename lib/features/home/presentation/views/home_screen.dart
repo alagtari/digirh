@@ -5,7 +5,6 @@ import 'package:digirh/features/home/presentation/widgets/quick_action_widget.da
 import 'package:digirh/features/home/presentation/widgets/small_news_card_widget.dart';
 import 'package:digirh/main.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:digirh/theme/colors.dart';
 import 'package:digirh/theme/spacers.dart';
@@ -130,7 +129,7 @@ class HomeScreen extends StatelessWidget {
                 ],
               ),
             ),
-            Container(
+            SizedBox(
               width: MediaQuery.of(context).size.width,
               height: 210,
               child: ListView.builder(

@@ -3,7 +3,6 @@ import 'package:digirh/theme/colors.dart';
 import 'package:digirh/theme/spacers.dart';
 import 'package:digirh/theme/text_styles.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class CongeCard extends StatelessWidget {
   const CongeCard({

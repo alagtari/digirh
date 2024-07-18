@@ -1,5 +1,4 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:digirh/common_widgets/app_search_field.dart';
 import 'package:digirh/features/news/presentation/widgets/news_card_widget.dart';
 import 'package:digirh/theme/colors.dart';
 import 'package:digirh/theme/spacers.dart';

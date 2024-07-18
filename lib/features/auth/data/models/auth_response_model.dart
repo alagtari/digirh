@@ -1,4 +1,3 @@
-import 'package:digirh/core/enums/role_enum.dart';
 import 'package:digirh/features/auth/domain/entities/auth_response_entity.dart';
 
 class AuthResponseModel extends AuthResponseEntity {

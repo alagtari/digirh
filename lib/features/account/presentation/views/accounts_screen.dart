@@ -1,6 +1,5 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:digirh/features/account/presentation/widgets/account_card.dart';
-import 'package:digirh/features/account/presentation/widgets/detail_account_card.dart';
 import 'package:digirh/main.dart';
 import 'package:digirh/theme/colors.dart';
 import 'package:digirh/theme/spacers.dart';

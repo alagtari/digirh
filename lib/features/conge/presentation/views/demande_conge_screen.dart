@@ -1,14 +1,10 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:digirh/common_widgets/app_botton.dart';
 import 'package:digirh/common_widgets/app_form_field.dart';
-import 'package:digirh/features/conge/data/models/conge_model.dart';
-import 'package:digirh/features/conge/presentation/widgets/conge_card.dart';
-import 'package:digirh/main.dart';
 import 'package:digirh/theme/colors.dart';
 import 'package:digirh/theme/spacers.dart';
 import 'package:digirh/theme/text_styles.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
 
 @RoutePage()
@@ -23,7 +19,7 @@ class _DemandeCongeScreenState extends State<DemandeCongeScreen> {
   final TextEditingController controller = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    var _usernameController;
+    var usernameController;
     return SafeArea(
       child: Container(
         color: Theme.of(context).scaffoldBackgroundColor,
