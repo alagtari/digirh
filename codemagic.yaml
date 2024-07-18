@@ -50,7 +50,8 @@ workflows:
     instance_type: mac_mini_m1
     environment:
       ios_signing:
-        distribution_type: development
+        # distribution_type: app_store
+        distribution_type: ad_hoc
         bundle_identifier: com.stb.digirh
       flutter: stable
       xcode: latest 
