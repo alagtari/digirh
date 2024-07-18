@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:digirh/theme/colors.dart';
-import 'package:digirh/theme/radius.dart';
 import 'package:digirh/theme/text_styles.dart';
 
 class AppBotton extends StatelessWidget {
@@ -21,7 +20,7 @@ class AppBotton extends StatelessWidget {
         width: double.infinity,
         height: 60,
         margin: const EdgeInsets.symmetric(
-          horizontal: 60,
+          horizontal: 80,
         ),
         decoration: BoxDecoration(
             color: AppColors.primaryDarkColor,

@@ -36,7 +36,7 @@ class QuickActionWidget extends StatelessWidget {
               child: SvgPicture.asset(
                 icon,
                 colorFilter: const ColorFilter.mode(
-                  Color(0xFF424242),
+                  AppColors.greyExtraDarkColor,
                   BlendMode.srcIn,
                 ),
               ),
@@ -45,7 +45,9 @@ class QuickActionWidget extends StatelessWidget {
             Text(
               title,
               style: TextStyles.mediumTextStyle.copyWith(
-                  color: const Color(0xFF424242), fontWeight: FontWeight.w600),
+                color: AppColors.greyExtraDarkColor,
+                fontWeight: FontWeight.w600,
+              ),
             )
           ],
         ),

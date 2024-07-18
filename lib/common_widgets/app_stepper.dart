@@ -42,7 +42,7 @@ class AppStepper extends StatelessWidget {
                 top: BorderSide(
                   color: step > 1
                       ? AppColors.primaryDarkColor
-                      : AppColors.greySoftColor,
+                      : AppColors.appBackgroundColor,
                   width: 2.0,
                 ),
               ),
@@ -76,8 +76,8 @@ class AppStepper extends StatelessWidget {
                 height: 50,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(50.0),
-                    border:
-                        Border.all(color: AppColors.greySoftColor, width: 2)),
+                    border: Border.all(
+                        color: AppColors.appBackgroundColor, width: 2)),
                 child: Center(
                   child: Text(
                     "2",
@@ -94,7 +94,7 @@ class AppStepper extends StatelessWidget {
                 top: BorderSide(
                   color: step > 2
                       ? AppColors.primaryDarkColor
-                      : AppColors.greySoftColor,
+                      : AppColors.appBackgroundColor,
                   width: 2.0,
                 ),
               ),
@@ -122,8 +122,8 @@ class AppStepper extends StatelessWidget {
                 height: 50,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(50.0),
-                    border:
-                        Border.all(color: AppColors.greySoftColor, width: 2)),
+                    border: Border.all(
+                        color: AppColors.appBackgroundColor, width: 2)),
                 child: Center(
                   child: Text(
                     "3",

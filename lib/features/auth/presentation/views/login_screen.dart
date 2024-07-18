@@ -30,10 +30,45 @@ class LoginScreen extends StatefulWidget implements AutoRouteWrapper {
 class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+
   late ValueNotifier<bool> obscured;
+
   final _formKey = GlobalKey<FormState>();
+
   late ValueNotifier<String> errorMessage;
   late bool valid;
+
+  final ScrollController _scrollController = ScrollController();
+  final FocusNode _usernameFocusNode = FocusNode();
+  final FocusNode _passwordFocusNode = FocusNode();
+
+  @override
+  void initState() {
+    super.initState();
+    // _usernameFocusNode.addListener(_scrollToFocusedField);
+    // _passwordFocusNode.addListener(_scrollToFocusedField);
+
+    super.initState();
+    obscured = ValueNotifier(true);
+    errorMessage = ValueNotifier("");
+    valid = true;
+  }
+
+  void _scrollToFocusedField() {
+    if (_usernameFocusNode.hasFocus || _passwordFocusNode.hasFocus) {
+      _scrollController.animateTo(
+        100,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeInOut,
+      );
+    } else {
+      _scrollController.animateTo(
+        _scrollController.position.minScrollExtent,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeInOut,
+      );
+    }
+  }
 
   void _validateUsername(String value) {
     log(value.isEmpty.toString());
@@ -70,14 +105,6 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
-  @override
-  void initState() {
-    super.initState();
-    obscured = ValueNotifier(true);
-    errorMessage = ValueNotifier("");
-    valid = true;
-  }
-
   void _onSubmit() {
     _validateUsername(_usernameController.text);
     if (valid) {
@@ -90,6 +117,16 @@ class _LoginScreenState extends State<LoginScreen> {
       );
       context.read<AuthBloc>().add(LoginEvent(request: userModel));
     }
+  }
+
+  @override
+  void dispose() {
+    _usernameFocusNode.removeListener(_scrollToFocusedField);
+    _passwordFocusNode.removeListener(_scrollToFocusedField);
+    _scrollController.dispose();
+    _usernameFocusNode.dispose();
+    _passwordFocusNode.dispose();
+    super.dispose();
   }
 
   @override
@@ -112,106 +149,120 @@ class _LoginScreenState extends State<LoginScreen> {
                 });
               }
             },
-            child: Container(
-              width: double.infinity,
-              height: double.infinity,
-              padding: const EdgeInsets.symmetric(horizontal: 30),
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  children: [
-                    Container(
-                      height: MediaQuery.of(context).size.height * .25,
-                      margin: const EdgeInsets.symmetric(vertical: 40),
-                      child: SvgPicture.asset(
-                        'assets/svg/login.svg',
-                        width: MediaQuery.of(context).size.width,
-                      ),
-                    ),
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * .05,
-                    ),
-                    AppFormField(
-                      hintText: "nom d'utilisateur",
-                      controller: _usernameController,
-                      prefixIcon: Container(
-                        padding: const EdgeInsets.symmetric(vertical: 10),
-                        child: SvgPicture.asset(
-                          'assets/svg/user.svg',
+            child: SingleChildScrollView(
+              controller: _scrollController,
+              child: Container(
+                width: double.infinity,
+                height: MediaQuery.of(context).size.height,
+                padding: const EdgeInsets.symmetric(horizontal: 30),
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    children: [
+                      mediumVerticalSpacer,
+                      Text(
+                        'DigiRH',
+                        style: TextStyles.extraExtraLargeTextStyle.copyWith(
+                          fontSize: 32,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
-                    ),
-                    extraSmallVerticalSpacer,
-                    ValueListenableBuilder<bool>(
-                      valueListenable: obscured,
-                      builder: (_, obs, __) => AppFormField(
-                        obscured: obs,
-                        hintText: "mot de passe",
-                        controller: _passwordController,
+                      const Text(
+                        'By STB',
+                        style: TextStyles.extraLargeTextStyle,
+                      ),
+                      Container(
+                        height: MediaQuery.of(context).size.height * .18,
+                        margin: const EdgeInsets.symmetric(vertical: 40),
+                        child: SvgPicture.asset(
+                          'assets/svg/login.svg',
+                          width: MediaQuery.of(context).size.width,
+                        ),
+                      ),
+                      AppFormField(
+                        focusNode: _usernameFocusNode,
+                        hintText: "nom d'utilisateur",
+                        controller: _usernameController,
                         prefixIcon: Container(
                           padding: const EdgeInsets.symmetric(vertical: 10),
                           child: SvgPicture.asset(
-                            'assets/svg/lock.svg',
+                            'assets/svg/user.svg',
                           ),
                         ),
-                        suffixIcon: InkWell(
-                            onTap: () {
-                              obscured.value = !obs;
-                            },
-                            child: obs
-                                ? Container(
-                                    padding: const EdgeInsets.all(10),
-                                    child: SvgPicture.asset(
-                                      'assets/svg/show.svg',
-                                      width: 20,
-                                    ),
-                                  )
-                                : Container(
-                                    padding: const EdgeInsets.all(10),
-                                    child: SvgPicture.asset(
-                                      'assets/svg/hide.svg',
-                                      width: 20,
-                                    ),
-                                  )),
                       ),
-                    ),
-                    extraMiniVerticalSpacer,
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: ValueListenableBuilder(
-                        valueListenable: errorMessage,
-                        builder: (context, value, child) {
-                          return Text(
-                            errorMessage.value,
-                            style: TextStyles.extraSmallTextStyle.copyWith(
-                              color: Colors.red,
+                      extraSmallVerticalSpacer,
+                      ValueListenableBuilder<bool>(
+                        valueListenable: obscured,
+                        builder: (_, obs, __) => AppFormField(
+                          focusNode: _passwordFocusNode,
+                          obscured: obs,
+                          hintText: "mot de passe",
+                          controller: _passwordController,
+                          prefixIcon: Container(
+                            padding: const EdgeInsets.symmetric(vertical: 10),
+                            child: SvgPicture.asset(
+                              'assets/svg/lock.svg',
                             ),
-                          );
-                        },
-                      ),
-                    ),
-                    extraMiniVerticalSpacer,
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: GestureDetector(
-                        // onTap: () =>
-                        //     context.router.replace(const ForgotPasswordEmail()),
-                        child: Text(
-                          "Mot de passe oublie?",
-                          style: TextStyles.smallTextStyle.copyWith(
-                              fontWeight: FontWeight.w600,
-                              color: AppColors.primaryDarkColor),
+                          ),
+                          suffixIcon: InkWell(
+                              onTap: () {
+                                obscured.value = !obs;
+                              },
+                              child: obs
+                                  ? Container(
+                                      padding: const EdgeInsets.all(10),
+                                      child: SvgPicture.asset(
+                                        'assets/svg/show.svg',
+                                        width: 20,
+                                      ),
+                                    )
+                                  : Container(
+                                      padding: const EdgeInsets.all(10),
+                                      child: SvgPicture.asset(
+                                        'assets/svg/hide.svg',
+                                        width: 20,
+                                      ),
+                                    )),
                         ),
                       ),
-                    ),
-                    extraExtraLargeVerticalSpacer,
-                    AppBotton(
-                        bottonText: "Login",
-                        onClick: () {
-                          _onSubmit();
-                        }),
-                    miniVerticalSpacer,
-                  ],
+                      extraMiniVerticalSpacer,
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: ValueListenableBuilder(
+                          valueListenable: errorMessage,
+                          builder: (context, value, child) {
+                            return Text(
+                              errorMessage.value,
+                              style: TextStyles.extraSmallTextStyle.copyWith(
+                                color: Colors.red,
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                      extraMiniVerticalSpacer,
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: GestureDetector(
+                          // onTap: () =>
+                          //     context.router.replace(const ForgotPasswordEmail()),
+                          child: Text(
+                            "Mot de passe oublie?",
+                            style: TextStyles.smallTextStyle.copyWith(
+                                fontWeight: FontWeight.w600,
+                                color: AppColors.primaryDarkColor),
+                          ),
+                        ),
+                      ),
+                      extraExtraLargeVerticalSpacer,
+                      AppBotton(
+                          bottonText: "Login",
+                          onClick: () {
+                            _onSubmit();
+                          }),
+                      miniVerticalSpacer,
+                    ],
+                  ),
                 ),
               ),
             ),

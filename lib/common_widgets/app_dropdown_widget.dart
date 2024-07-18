@@ -40,7 +40,7 @@ class _AppDropdownWidgetState extends State<AppDropdownWidget> {
       padding: const EdgeInsets.symmetric(horizontal: 23),
       height: 60,
       decoration: const BoxDecoration(
-        color: AppColors.greyLightColor,
+        color: AppColors.appBackgroundColor,
         borderRadius: BorderRadius.all(
           CustomRaius.smallRadius,
         ),

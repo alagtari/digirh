@@ -28,7 +28,7 @@ class AppTextarea extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: const BoxDecoration(
-        color: AppColors.greyLightColor,
+        color: AppColors.appBackgroundColor,
         borderRadius: BorderRadius.all(
           CustomRaius.smallRadius,
         ),

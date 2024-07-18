@@ -11,11 +11,13 @@ import 'package:digirh/core/injection/injection_container.dart' as container;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:digirh/core/routes/app_router.gr.dart';
 import 'package:digirh/core/injection/injection_container.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 void main() async {
   await dotenv.load(fileName: ".env");
   WidgetsFlutterBinding.ensureInitialized();
   await container.init();
+  await initializeDateFormatting("fr_FR", null);
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
     statusBarBrightness: Brightness.light,
@@ -91,9 +93,9 @@ class _MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: false,
       routerConfig: appRouter.config(),
       theme: ThemeData(
-        scaffoldBackgroundColor: const Color(0xFFF2F2F2),
+        scaffoldBackgroundColor: AppColors.appBackgroundColor,
         bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-          backgroundColor: Colors.white,
+          backgroundColor: AppColors.whiteDarkColor,
         ), // Setting the BottomNavigationBar background color to black
         // Set background color to black
       ),

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+const SizedBox extraExtraMiniVerticalSpacer = SizedBox(
+  height: 2.5,
+);
 const SizedBox extraMiniVerticalSpacer = SizedBox(
   height: 5.0,
 );

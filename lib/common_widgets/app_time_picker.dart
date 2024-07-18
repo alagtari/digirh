@@ -66,7 +66,7 @@ class _AppTimePickerFieldState extends State<AppTimePickerField> {
         height: 60,
         padding: const EdgeInsets.only(left: 25),
         decoration: const BoxDecoration(
-          color: AppColors.greyLightColor,
+          color: AppColors.appBackgroundColor,
           borderRadius: BorderRadius.all(
             CustomRaius.smallRadius,
           ),

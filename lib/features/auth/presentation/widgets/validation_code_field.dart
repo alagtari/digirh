@@ -17,7 +17,7 @@ class ValidationCodeField extends StatelessWidget {
       children: List.generate(6, (index) {
         return Container(
           decoration: BoxDecoration(
-            color: AppColors.greyLightColor,
+            color: AppColors.appBackgroundColor,
             borderRadius: BorderRadius.circular(12.0),
           ),
           width: MediaQuery.of(context).size.width * .125,

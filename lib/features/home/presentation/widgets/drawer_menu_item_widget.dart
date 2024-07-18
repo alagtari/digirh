@@ -17,34 +17,33 @@ class DrawerMenuItemWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: MediaQuery.of(context).size.width * 0.27,
-      height: MediaQuery.of(context).size.width * 0.27,
-      margin: EdgeInsets.all(
-        MediaQuery.of(context).size.width * 0.031 - 7,
-      ),
-      decoration: BoxDecoration(
-        color: AppColors.whiteDarkColor,
-        borderRadius: BorderRadius.circular(25),
-      ),
+      padding: const EdgeInsets.all(5),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          SizedBox(
-            height: 30,
-            width: 30,
+          Container(
+            width: MediaQuery.of(context).size.width * 0.25 - 20,
+            height: MediaQuery.of(context).size.width * 0.25 - 20,
+            padding: const EdgeInsets.all(25),
+            decoration: BoxDecoration(
+              color: AppColors.appBackgroundColor,
+              borderRadius: BorderRadius.circular(25),
+            ),
             child: SvgPicture.asset(
               icon,
               colorFilter: const ColorFilter.mode(
-                Color(0xFF424242),
+                AppColors.greyExtraDarkColor,
                 BlendMode.srcIn,
               ),
             ),
           ),
-          extraMiniVerticalSpacer,
+          extraExtraMiniVerticalSpacer,
           Text(
             title,
-            style: TextStyles.mediumTextStyle.copyWith(
-                color: const Color(0xFF424242), fontWeight: FontWeight.w600),
+            style: TextStyles.smallTextStyle.copyWith(
+              color: AppColors.greyExtraDarkColor,
+              fontWeight: FontWeight.w600,
+            ),
           )
         ],
       ),

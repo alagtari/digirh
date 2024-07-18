@@ -1,14 +1,11 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:digirh/common_widgets/bottom_navigation_icon_widget.dart';
+import 'package:digirh/core/routes/app_router.gr.dart';
 import 'package:digirh/features/home/presentation/views/app_drawer.dart';
-import 'package:digirh/features/home/presentation/widgets/drawer_menu_item_widget.dart';
 import 'package:digirh/main.dart';
 import 'package:digirh/theme/colors.dart';
-import 'package:digirh/theme/spacers.dart';
 import 'package:digirh/theme/text_styles.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_svg/svg.dart';
 
 @RoutePage()
 class AppFrame extends StatefulWidget {
@@ -22,20 +19,23 @@ class _AppFrameState extends State<AppFrame> {
   int _selectedIndex = 0;
 
   void _onItemTapped(int index) {
-    // switch (index) {
-    //   case 0:
-    //     context.router.replace(const DriverPlansRoute());
-    //     break;
-    //   case 1:
-    //     context.router.replace(const DriverChatRoomRoute());
-    //     break;
-    //   case 2:
-    //     context.router.replace(const DriverIncidentRoute());
-    //     break;
-    //   case 3:
-    //     context.router.replace(const DriverProfileRoute());
-    //     break;
-    // }
+    switch (index) {
+      case 0:
+        context.router.replace(const HomeRoute());
+        break;
+      case 1:
+        context.router.replace(const JournalRoute());
+        break;
+      case 2:
+        // context.router.replace(const DriverIncidentRoute());
+        break;
+      case 3:
+        context.router.replace(const CongeRoute());
+        break;
+      case 4:
+        context.router.replace(const AccountsRoute());
+        break;
+    }
 
     setState(() {
       _selectedIndex = index;
@@ -64,7 +64,7 @@ class _AppFrameState extends State<AppFrame> {
               index: 1,
               icon: 'assets/svg/cartes.svg',
             ),
-            label: "Cartes",
+            label: "Journal",
           ),
           BottomNavigationBarItem(
             icon: BottomNavigationIconWidget(
@@ -88,7 +88,7 @@ class _AppFrameState extends State<AppFrame> {
               index: 4,
               icon: 'assets/svg/user.svg',
             ),
-            label: "Profile",
+            label: "Comptes",
           ),
         ],
         currentIndex: _selectedIndex,

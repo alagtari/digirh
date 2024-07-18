@@ -12,6 +12,9 @@ class AppFormField extends StatelessWidget {
   final void Function(String?)? onSubmitted;
   final TextEditingController controller;
   final bool readOnly;
+  final FocusNode? focusNode;
+  final Color color;
+  final Color textColor;
 
   const AppFormField({
     super.key,
@@ -22,6 +25,9 @@ class AppFormField extends StatelessWidget {
     this.onSubmitted,
     required this.controller,
     this.readOnly = false,
+    this.focusNode,
+    this.color = AppColors.appBackgroundColor,
+    this.textColor = AppColors.greyDarkColor,
   });
 
   @override
@@ -29,20 +35,21 @@ class AppFormField extends StatelessWidget {
     return Container(
       height: 60,
       padding: const EdgeInsets.symmetric(horizontal: 10),
-      decoration: const BoxDecoration(
-        color: AppColors.greyLightColor,
-        borderRadius: BorderRadius.all(
+      decoration: BoxDecoration(
+        color: color,
+        borderRadius: const BorderRadius.all(
           CustomRaius.smallRadius,
         ),
       ),
       child: Center(
         child: TextField(
+          focusNode: focusNode,
           controller: controller,
           obscureText: obscured!,
           readOnly: readOnly,
           onTap: () {},
           style: TextStyles.mediumTextStyle.copyWith(
-            color: AppColors.greyDarkColor,
+            color: textColor,
             fontWeight: FontWeight.w500,
           ),
           decoration: InputDecoration(
@@ -51,8 +58,8 @@ class AppFormField extends StatelessWidget {
             prefixIcon: prefixIcon,
             hintText: hintText,
             border: InputBorder.none,
-            hintStyle: const TextStyle(
-              color: AppColors.greyDarkColor,
+            hintStyle: TextStyle(
+              color: textColor,
             ),
           ),
         ),

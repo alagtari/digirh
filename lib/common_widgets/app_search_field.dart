@@ -25,9 +25,9 @@ class AppSearchField extends StatelessWidget {
     return Container(
       height: 60,
       padding: const EdgeInsets.symmetric(horizontal: 10),
-      decoration:  BoxDecoration(
+      decoration: BoxDecoration(
         color: AppColors.whiteDarkColor,
-        borderRadius: BorderRadius.circular(50),
+        borderRadius: BorderRadius.circular(15),
       ),
       child: Center(
         child: TextField(

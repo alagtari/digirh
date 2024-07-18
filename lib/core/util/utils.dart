@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 class Utils {
   Utils._();
@@ -34,6 +35,16 @@ extension TimeOfDayExtension on TimeOfDay {
 extension DateTimeExtension on DateTime {
   String formatDayMonthYear() {
     final formatter = DateFormat('dd-MM-yyyy');
+    return formatter.format(this);
+  }
+
+  String formatDateTimeToHumanString() {
+    final formatter = DateFormat("dd MMMM yyyy HH:mm", 'fr_FR');
+    return formatter.format(this);
+  }
+
+  String formatDateToHumanString() {
+    final formatter = DateFormat("dd MMMM yyyy", 'fr_FR');
     return formatter.format(this);
   }
 

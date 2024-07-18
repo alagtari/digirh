@@ -6,8 +6,11 @@ import 'app_router.gr.dart';
 class AppRouter extends $AppRouter {
   @override
   List<AutoRoute> get routes => [
-        AutoRoute(page: LoginRoute.page, initial: true),
+        AutoRoute(
+          page: LoginRoute.page,
+        ),
         CustomRoute(
+          initial: true,
           page: AppFrame.page,
           transitionsBuilder: TransitionsBuilders.noTransition,
           children: [
@@ -16,11 +19,29 @@ class AppRouter extends $AppRouter {
               transitionsBuilder: TransitionsBuilders.noTransition,
               initial: true,
             ),
+            CustomRoute(
+              page: CongeRoute.page,
+              transitionsBuilder: TransitionsBuilders.noTransition,
+            ),
+            AutoRoute(
+              page: DemandeCongeRoute.page,
+            ),
+            CustomRoute(
+              page: AccountsRoute.page,
+              transitionsBuilder: TransitionsBuilders.noTransition,
+            ),
+            AutoRoute(
+              page: AccountDetailsRoute.page,
+            ),
             AutoRoute(
               page: EnvoiListRoute.page,
             ),
-             AutoRoute(
+            AutoRoute(
               page: NewsRoute.page,
+            ),
+            CustomRoute(
+              page: JournalRoute.page,
+              transitionsBuilder: TransitionsBuilders.noTransition,
             ),
           ],
         ),

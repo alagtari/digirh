@@ -22,7 +22,7 @@ class AppChatFormField extends StatelessWidget {
       height: 45,
       padding: const EdgeInsets.symmetric(horizontal: 15),
       decoration: const BoxDecoration(
-        color: AppColors.greyLightColor,
+        color: AppColors.appBackgroundColor,
         borderRadius: BorderRadius.all(
           CustomRaius.smallRadius,
         ),
