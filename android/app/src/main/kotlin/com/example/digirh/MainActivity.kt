@@ -1,4 +1,4 @@
-package com.example.digirh
+package com.stb.digirh
 
 import io.flutter.embedding.android.FlutterActivity
 
