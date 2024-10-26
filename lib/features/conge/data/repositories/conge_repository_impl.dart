@@ -1,6 +1,8 @@
 import 'dart:developer';
 
 import 'package:dartz/dartz.dart';
+import 'package:digirh/features/conge/data/models/supervisor_conge_model.dart';
+import 'package:digirh/features/conge/data/models/supervisor_model.dart';
 import 'package:dio/dio.dart';
 import 'package:digirh/core/common_used/response_wrapper.dart';
 import 'package:digirh/core/errors/exceptions.dart';
@@ -17,7 +19,8 @@ class CongeRepositoryImpl implements CongeRepository {
   });
 
   @override
-  Future<Either<AppFailure, Unit>> addConge(CongeModel request) async {
+  Future<Either<AppFailure, ResponseWrapper<LeaveModel>>> addConge(
+      LeaveModel request) async {
     try {
       final res = await dataSource.addConge(request);
       log(res.toString());
@@ -55,7 +58,7 @@ class CongeRepositoryImpl implements CongeRepository {
   }
 
   @override
-  Future<Either<AppFailure, ResponseWrapper<List<CongeModel>>>>
+  Future<Either<AppFailure, ResponseWrapper<List<LeaveModel>>>>
       getConges() async {
     try {
       final res = await dataSource.getConges();
@@ -76,9 +79,106 @@ class CongeRepositoryImpl implements CongeRepository {
 
   @override
   Future<Either<AppFailure, Unit>> updateConge(
-      CongeModel request, String id) async {
+      LeaveModel request, String id) async {
     try {
       final res = await dataSource.updateConge(request, id);
+      log(res.toString());
+      return right(res);
+    } on AppException catch (e) {
+      return Left(AppFailure(message: e.message));
+    } on DioException catch (e) {
+      return Left(
+        AppFailure(message: e.response?.data?["message"]),
+      );
+    } catch (e) {
+      return Left(
+        AppFailure(message: 'Unexpected error occurred.'),
+      );
+    }
+  }
+
+  @override
+  Future<Either<AppFailure, Unit>> submitConge(String congeId) async {
+    try {
+      final res = await dataSource.submitConge(congeId);
+      log(res.toString());
+      return right(res);
+    } on AppException catch (e) {
+      return Left(AppFailure(message: e.message));
+    } on DioException catch (e) {
+      return Left(
+        AppFailure(message: e.response?.data?["message"]),
+      );
+    } catch (e) {
+      return Left(
+        AppFailure(message: 'Unexpected error occurred.'),
+      );
+    }
+  }
+
+  @override
+  Future<Either<AppFailure, ResponseWrapper<List<SupervisorModel>>>>
+      getCongeSupervisors(String congeId) async {
+    try {
+      final res = await dataSource.getCongeSupervisors(congeId);
+      log(res.toString());
+      return right(res);
+    } on AppException catch (e) {
+      return Left(AppFailure(message: e.message));
+    } on DioException catch (e) {
+      return Left(
+        AppFailure(message: e.response?.data?["message"]),
+      );
+    } catch (e) {
+      return Left(
+        AppFailure(message: 'Unexpected error occurred.'),
+      );
+    }
+  }
+
+  @override
+  Future<Either<AppFailure, ResponseWrapper<List<SupervisorLeaveModel>>>>
+      getSupervisorConges() async {
+    try {
+      final res = await dataSource.getSupervisorConges();
+      log(res.toString());
+      return right(res);
+    } on AppException catch (e) {
+      return Left(AppFailure(message: e.message));
+    } on DioException catch (e) {
+      return Left(
+        AppFailure(message: e.response?.data?["message"]),
+      );
+    } catch (e) {
+      return Left(
+        AppFailure(message: 'Unexpected error occurred.'),
+      );
+    }
+  }
+
+  @override
+  Future<Either<AppFailure, Unit>> acceptConge(String congeId) async {
+    try {
+      final res = await dataSource.acceptConge(congeId);
+      log(res.toString());
+      return right(res);
+    } on AppException catch (e) {
+      return Left(AppFailure(message: e.message));
+    } on DioException catch (e) {
+      return Left(
+        AppFailure(message: e.response?.data?["message"]),
+      );
+    } catch (e) {
+      return Left(
+        AppFailure(message: 'Unexpected error occurred.'),
+      );
+    }
+  }
+
+  @override
+  Future<Either<AppFailure, Unit>> rejectConge(String congeId) async {
+    try {
+      final res = await dataSource.rejectConge(congeId);
       log(res.toString());
       return right(res);
     } on AppException catch (e) {

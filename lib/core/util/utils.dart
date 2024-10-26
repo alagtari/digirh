@@ -47,6 +47,12 @@ extension DateTimeExtension on DateTime {
     return formatter.format(this);
   }
 
+  int daysBetweenTwoDays(DateTime endDate) {
+    Duration difference = endDate.difference(this);
+    int daysBetween = difference.inDays;
+    return daysBetween;
+  }
+
   String timeAgo() {
     final now = DateTime.now();
     final difference = now.difference(this);

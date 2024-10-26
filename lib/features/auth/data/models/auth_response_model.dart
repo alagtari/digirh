@@ -7,7 +7,7 @@ class AuthResponseModel extends AuthResponseEntity {
 
   factory AuthResponseModel.fromJson(Map<String, dynamic> json) {
     return AuthResponseModel(
-      accessToken: json['access_token'],
+      accessToken: json['payload']['token'],
     );
   }
   Map<String, dynamic> toJson() {

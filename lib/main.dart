@@ -65,16 +65,7 @@ class _MyAppState extends State<MyApp> {
     log(role ?? "role is null");
     log(token ?? "token is null");
     if (role != null && token != null) {
-      // switch (role) {
-      //   case "citizen":
-      //     appRouter.push(const CitizenAppFrame());
-      //   case 'driver':
-      //     appRouter.push(const DriverAppFrame());
-      //   case 'admin':
-      //     appRouter.push(const AdminAppFrame());
-      //   default:
-      //     appRouter.push(const LoginRoute());
-      // }
+      appRouter.push(const AppFrame());
     } else {
       appRouter.push(const LoginRoute());
     }

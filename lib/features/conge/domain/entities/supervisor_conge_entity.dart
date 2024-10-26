@@ -1,8 +1,9 @@
+import 'package:digirh/core/enums/aggreement_leave_status.dart';
 import 'package:digirh/core/enums/leave_status.dart';
 import 'package:digirh/core/enums/leave_type.dart';
 import 'package:equatable/equatable.dart';
 
-class LeaveEntity extends Equatable {
+class SuprvsisorLeaveEntity extends Equatable {
   final String? id;
   final String? staffId;
   final LeaveType leaveType;
@@ -11,8 +12,10 @@ class LeaveEntity extends Equatable {
   final String phone;
   final String pay;
   final LeaveStatus? status;
+  final AgreementLeaveStatus desisionStatus;
+  final String desisonId;
 
-  const LeaveEntity({
+  const SuprvsisorLeaveEntity({
     this.id,
     this.staffId,
     required this.leaveType,
@@ -21,6 +24,8 @@ class LeaveEntity extends Equatable {
     required this.phone,
     required this.pay,
     this.status,
+    required this.desisionStatus,
+    required this.desisonId,
   });
 
   @override

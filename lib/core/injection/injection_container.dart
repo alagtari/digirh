@@ -1,3 +1,6 @@
+import 'package:digirh/features/conge/data/data_sources/conge_remote_data_source.dart';
+import 'package:digirh/features/conge/data/repositories/conge_repository_impl.dart';
+import 'package:digirh/features/conge/domain/repositories/conge_repository.dart';
 import 'package:dio/dio.dart';
 import 'package:digirh/core/common_used/app_prefs.dart';
 import 'package:digirh/core/common_used/dio_provider.dart';
@@ -29,6 +32,15 @@ Future<void> init() async {
   );
   sl.registerLazySingleton<AuthRepository>(
     () => AuthRepositoryImpl(
+      dataSource: sl(),
+    ),
+  );
+
+    sl.registerLazySingleton<CongeOnlineDataSource>(
+    () => CongeOnlineDataSourceImpl(),
+  );
+  sl.registerLazySingleton<CongeRepository>(
+    () => CongeRepositoryImpl(
       dataSource: sl(),
     ),
   );

@@ -25,7 +25,7 @@ class AuthRepositoryImpl implements AuthRepository {
       return Left(AppFailure(message: e.message));
     } on DioException catch (e) {
       return Left(
-        AppFailure(message: e.response?.data?["message"]),
+        AppFailure(message: e.response?.data?["detail"]),
       );
     } catch (e) {
       return Left(

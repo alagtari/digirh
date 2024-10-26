@@ -1,5 +1,5 @@
+import 'package:digirh/core/common_used/dio_provider.dart';
 import 'package:dio/dio.dart';
-import 'package:digirh/core/injection/injection_container.dart';
 import 'package:digirh/features/auth/data/models/auth_response_model.dart';
 import 'package:digirh/features/auth/data/models/auth_request_model.dart';
 
@@ -14,8 +14,9 @@ class AuthOnlineDataSourceImpl implements AuthOnlineDataSource {
   Future<AuthResponseModel> login(
     AuthRequestModel request,
   ) async {
-    final res = await sl<Dio>().post(
-      "/auth/login",
+    Dio dio = DioProvider.authInstance();
+    final res = await dio.post(
+      "/login",
       data: request.toJson(),
     );
 

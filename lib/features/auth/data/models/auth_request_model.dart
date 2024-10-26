@@ -1,4 +1,3 @@
-
 import 'package:digirh/features/auth/domain/entities/auth_request_entity.dart';
 
 class AuthRequestModel extends AuthRequestEntity {
@@ -13,8 +12,10 @@ class AuthRequestModel extends AuthRequestEntity {
 
   Map<String, dynamic> toJson() {
     return {
-      'username': username,
-      'password': password,
+      'login': {
+        'username': username,
+        'password': password,
+      }
     };
   }
 }

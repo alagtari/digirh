@@ -1,9 +1,10 @@
+import 'package:digirh/core/enums/aggreement_leave_status.dart';
 import 'package:digirh/core/enums/leave_status.dart';
 import 'package:digirh/core/enums/leave_type.dart';
-import 'package:digirh/features/conge/domain/entities/conge_entity.dart';
+import 'package:digirh/features/conge/domain/entities/supervisor_conge_entity.dart';
 
-class LeaveModel extends LeaveEntity {
-  const LeaveModel({
+class SupervisorLeaveModel extends SuprvsisorLeaveEntity {
+  const SupervisorLeaveModel({
     super.id,
     super.staffId,
     required super.leaveType,
@@ -12,10 +13,12 @@ class LeaveModel extends LeaveEntity {
     required super.phone,
     required super.pay,
     super.status,
+    required super.desisionStatus,
+    required super.desisonId,
   });
 
-  factory LeaveModel.fromJson(Map<String, dynamic> json) {
-    return LeaveModel(
+  factory SupervisorLeaveModel.fromJson(Map<String, dynamic> json) {
+    return SupervisorLeaveModel(
       id: json['id'],
       staffId: json['staffId'],
       leaveType: LeaveType.values[json['leaveType']],
@@ -24,34 +27,27 @@ class LeaveModel extends LeaveEntity {
       phone: json['phone'],
       pay: json['pay'],
       status: LeaveStatus.values[json['status']],
+      desisionStatus: AgreementLeaveStatus.values[json['desision']],
+      desisonId: json['desisionId'],
     );
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      'leave': {
-        'id': id,
-        'staffId': staffId,
-        'leaveType': leaveType.index,
-        'startDate': startDate.toIso8601String(),
-        'endDate': endDate.toIso8601String(),
-        'phone': phone,
-        'pay': pay,
-        'status': status?.index,
-      }
-    };
+    return {};
   }
 
   // Adding copyWith method
-  LeaveModel copyWith({
+  SupervisorLeaveModel copyWith({
     LeaveType? leaveType,
     DateTime? startDate,
     DateTime? endDate,
     String? phone,
     String? pay,
     LeaveStatus? status,
+    AgreementLeaveStatus? desisionStatus,
+    String? desisonId,
   }) {
-    return LeaveModel(
+    return SupervisorLeaveModel(
       id: id,
       staffId: staffId,
       leaveType: leaveType ?? this.leaveType,
@@ -60,6 +56,8 @@ class LeaveModel extends LeaveEntity {
       phone: phone ?? this.phone,
       pay: pay ?? this.pay,
       status: status ?? this.status,
+      desisionStatus: desisionStatus ?? this.desisionStatus,
+      desisonId: desisonId ?? this.desisonId,
     );
   }
 }

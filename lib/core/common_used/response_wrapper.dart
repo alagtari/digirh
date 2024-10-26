@@ -6,7 +6,7 @@ class ResponseWrapper<T> {
 
   factory ResponseWrapper.fromJson(
       dynamic json, T Function(dynamic) fromJsonT) {
-    final String message = json['message'];
+    final String? message = json['message'];
     return ResponseWrapper(
       message: message,
       payload: json['payload'] != null ? fromJsonT(json['payload']) : null,

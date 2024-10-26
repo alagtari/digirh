@@ -1,3 +1,6 @@
+import 'package:digirh/core/enums/leave_agreement_enum.dart';
+import 'package:digirh/core/util/utils.dart';
+import 'package:digirh/features/conge/data/models/supervisor_model.dart';
 import 'package:digirh/theme/colors.dart';
 import 'package:digirh/theme/spacers.dart';
 import 'package:digirh/theme/text_styles.dart';
@@ -6,8 +9,10 @@ import 'package:flutter/material.dart';
 class CongeApprouvalCard extends StatelessWidget {
   const CongeApprouvalCard({
     super.key,
+    required this.supervisor,
   });
 
+  final SupervisorModel supervisor;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -35,14 +40,14 @@ class CongeApprouvalCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "03 juillet 2024",
+                supervisor.lastModified.formatDateToHumanString(),
                 style: TextStyles.smallTextStyle.copyWith(
                   fontWeight: FontWeight.bold,
                   color: AppColors.greyExtraDarkColor,
                 ),
               ),
               Text(
-                "Mounir Gtari",
+                "${supervisor.prenom} ${supervisor.nom}",
                 style: TextStyles.largeTextStyle.copyWith(
                   fontWeight: FontWeight.bold,
                   color: AppColors.greyExtraDarkColor,
@@ -52,15 +57,18 @@ class CongeApprouvalCard extends StatelessWidget {
           ),
           const Expanded(child: SizedBox()),
           Container(
+            width: 80,
             padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
-              color: const Color(0x3334A853),
+              color: leaveAgreementToColor(supervisor.accord).withOpacity(.1),
               borderRadius: BorderRadius.circular(10),
             ),
-            child: Text(
-              "Approuvé",
-              style: TextStyles.smallTextStyle
-                  .copyWith(color: const Color(0xFF34A853)),
+            child: Center(
+              child: Text(
+                leaveAgreementToString(supervisor.accord),
+                style: TextStyles.smallTextStyle
+                    .copyWith(color: leaveAgreementToColor(supervisor.accord)),
+              ),
             ),
           )
         ],

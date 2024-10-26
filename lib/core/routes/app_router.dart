@@ -10,7 +10,6 @@ class AppRouter extends $AppRouter {
           page: LoginRoute.page,
         ),
         CustomRoute(
-          initial: true,
           page: AppFrame.page,
           transitionsBuilder: TransitionsBuilders.noTransition,
           children: [
@@ -21,6 +20,10 @@ class AppRouter extends $AppRouter {
             ),
             CustomRoute(
               page: CongeRoute.page,
+              transitionsBuilder: TransitionsBuilders.noTransition,
+            ),
+            CustomRoute(
+              page: SupervisorCongeRoute.page,
               transitionsBuilder: TransitionsBuilders.noTransition,
             ),
             AutoRoute(

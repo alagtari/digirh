@@ -10,7 +10,25 @@ class DioProvider {
         BaseOptions(
           connectTimeout: const Duration(seconds: 15),
           baseUrl: "${dotenv.env['BACKEND_BASE_URL']}",
+          headers: {
+            HttpHeaders.contentTypeHeader: "application/json",
+          },
+        ),
+      )..interceptors.addAll(
+          [
+            ApiInterceptor(),
+            if (!kReleaseMode)
+              LogInterceptor(
+                requestBody: true,
+                responseBody: false,
+              ),
+          ],
+        );
 
+  static Dio authInstance() => Dio(
+        BaseOptions(
+          connectTimeout: const Duration(seconds: 15),
+          baseUrl: "${dotenv.env['AUTH_BASE_URL']}",
           headers: {
             HttpHeaders.contentTypeHeader: "application/json",
           },

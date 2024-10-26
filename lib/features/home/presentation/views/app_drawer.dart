@@ -1,3 +1,5 @@
+import 'package:auto_route/auto_route.dart';
+import 'package:digirh/core/routes/app_router.gr.dart';
 import 'package:digirh/features/home/presentation/widgets/drawer_menu_item_widget.dart';
 import 'package:digirh/main.dart';
 import 'package:digirh/theme/colors.dart';
@@ -44,19 +46,8 @@ class AppDrawer extends StatelessWidget {
                   )
                 ],
               ),
-              // Container(
-              //   width: 150,
-              //   height: 150,
-              //   decoration: BoxDecoration(
-              //     borderRadius: BorderRadius.circular(30),
-              //     image: const DecorationImage(
-              //       image: AssetImage('assets/images/profile.jpg'),
-              //       fit: BoxFit.cover,
-              //     ),
-              //   ),
-              // ),
               extraExtraLargeVerticalSpacer,
-              const Row(
+              Row(
                 children: [
                   DrawerMenuItemWidget(
                     icon: 'assets/svg/user.svg',
@@ -70,9 +61,15 @@ class AppDrawer extends StatelessWidget {
                     icon: 'assets/svg/carte_visite.svg',
                     title: 'C.Visite',
                   ),
-                  DrawerMenuItemWidget(
-                    icon: 'assets/svg/actualite.svg',
-                    title: 'Actualité',
+                  GestureDetector(
+                    onTap: () {
+                      MyApp.scaffoldKey.currentState?.closeDrawer();
+                      context.router.push(const SupervisorCongeRoute());
+                    },
+                    child: const DrawerMenuItemWidget(
+                      icon: 'assets/svg/actualite.svg',
+                      title: 'D. Congé',
+                    ),
                   )
                 ],
               ),

@@ -11,10 +11,12 @@ class AppDatePickerField extends StatefulWidget {
     required this.onDateSelected,
     required this.hint,
     this.initialDate,
+    required this.icon,
   });
   final void Function(DateTime time) onDateSelected;
   final String hint;
   final DateTime? initialDate;
+  final Widget icon;
   @override
   State<AppDatePickerField> createState() => _AppDatePickerFieldState();
 }
@@ -34,7 +36,7 @@ class _AppDatePickerFieldState extends State<AppDatePickerField> {
           child: Theme(
             data: Theme.of(context).copyWith(
               colorScheme: const ColorScheme.light(
-                primary: Colors.green,
+                primary: AppColors.primaryDarkColor,
                 onPrimary: Colors.white,
               ),
             ),
@@ -57,27 +59,22 @@ class _AppDatePickerFieldState extends State<AppDatePickerField> {
       onTap: () => _pickDate(),
       child: Container(
         height: 60,
-        padding: const EdgeInsets.only(left: 25),
+        padding: const EdgeInsets.only(left: 10),
         decoration: const BoxDecoration(
-          color: AppColors.appBackgroundColor,
+          color: Colors.white,
           borderRadius: BorderRadius.all(
             CustomRaius.smallRadius,
           ),
         ),
         child: Row(
           children: [
-            const Icon(
-              Icons.calendar_month,
-              size: 20,
-              color: AppColors.greyDarkColor,
-            ),
-            miniHorizantalSpacer,
+            widget.icon,
             Text(
               (_selectedDate?.formatDayMonthYear() ??
                   widget.initialDate?.formatDayMonthYear() ??
                   widget.hint),
               style: TextStyles.mediumTextStyle.copyWith(
-                color: AppColors.greyDarkColor,
+                color: AppColors.greyExtraDarkColor,
                 fontWeight: FontWeight.w500,
               ),
             ),

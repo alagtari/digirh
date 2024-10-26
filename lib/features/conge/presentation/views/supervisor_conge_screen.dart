@@ -1,10 +1,8 @@
-import 'dart:developer';
-
 import 'package:auto_route/auto_route.dart';
 import 'package:digirh/core/routes/app_router.gr.dart';
-import 'package:digirh/features/conge/data/models/conge_model.dart';
+import 'package:digirh/features/conge/data/models/supervisor_conge_model.dart';
 import 'package:digirh/features/conge/presentation/bloc/bloc.dart';
-import 'package:digirh/features/conge/presentation/widgets/conge_card.dart';
+import 'package:digirh/features/conge/presentation/widgets/supervisor_conge_card.dart';
 import 'package:digirh/main.dart';
 import 'package:digirh/theme/colors.dart';
 import 'package:digirh/theme/spacers.dart';
@@ -14,21 +12,22 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 
 @RoutePage()
-class CongeScreen extends StatefulWidget implements AutoRouteWrapper {
-  const CongeScreen({Key? key}) : super(key: key);
+class SupervisorCongeScreen extends StatefulWidget implements AutoRouteWrapper {
+  const SupervisorCongeScreen({super.key});
 
   @override
-  State<CongeScreen> createState() => _CongeScreenState();
+  State<SupervisorCongeScreen> createState() => _SupervisorCongeScreenState();
 
   @override
   Widget wrappedRoute(BuildContext context) => BlocProvider(
-        create: (_) => CongeBloc()..add(GetCongesEvent()),
+        create: (_) => CongeBloc()..add(GetSupervisorCongesEvent()),
         child: this,
       );
 }
 
-class _CongeScreenState extends State<CongeScreen> {
-  ValueNotifier<List<LeaveModel>> conges = ValueNotifier<List<LeaveModel>>([]);
+class _SupervisorCongeScreenState extends State<SupervisorCongeScreen> {
+  ValueNotifier<List<SupervisorLeaveModel>> conges =
+      ValueNotifier<List<SupervisorLeaveModel>>([]);
 
   @override
   Widget build(BuildContext context) {
@@ -41,22 +40,17 @@ class _CongeScreenState extends State<CongeScreen> {
           ),
           child: BlocListener<CongeBloc, CongeState>(
             listener: (context, state) {
-              if (state is GetCongesSuccess) {
+              if (state is GetSupervisorCongesSuccess) {
                 setState(() {
                   conges.value = state.conges;
                 });
               }
-              if (state is DeleteCongeSuccess) {
+              if (state is AcceptCongeSuccess) {
                 setState(() {
                   conges.value = state.conges;
                 });
               }
-              if (state is SubmitCongeSuccess) {
-                setState(() {
-                  conges.value = state.conges;
-                });
-              }
-              if (state is AddCongeSuccess) {
+              if (state is RejectCongeSuccess) {
                 setState(() {
                   conges.value = state.conges;
                 });
@@ -66,11 +60,7 @@ class _CongeScreenState extends State<CongeScreen> {
               children: [
                 largeVerticalSpacer,
                 _buildHeader(),
-                smallVerticalSpacer,
-                _buildCongeInfo(),
-                extraSmallVerticalSpacer,
-                _buildNewCongeButton(),
-                smallVerticalSpacer,
+                largeVerticalSpacer,
                 Expanded(
                   child: _buildCongeList(),
                 ),
@@ -101,7 +91,7 @@ class _CongeScreenState extends State<CongeScreen> {
         Expanded(
           child: Center(
             child: Text(
-              'Congé',
+              'Demandes Congé',
               style: TextStyles.extraExtraLargeTextStyle.copyWith(
                 fontWeight: FontWeight.w600,
               ),
@@ -122,61 +112,6 @@ class _CongeScreenState extends State<CongeScreen> {
     );
   }
 
-  Widget _buildCongeInfo() {
-    return Column(
-      children: [
-        Text(
-          "59",
-          style: TextStyles.extraExtraLargeTextStyle.copyWith(
-            fontSize: 50,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        Text(
-          "Encore congé annuelle par jour",
-          style: TextStyles.mediumTextStyle.copyWith(
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildNewCongeButton() {
-    return GestureDetector(
-      onTap: () => context.router.push(DemandeCongeRoute(
-        onAdd: (p0) {
-          context.read<CongeBloc>().add(
-                AddCongeEvent(conge: p0),
-              );
-          context.router.back();
-        },
-      )),
-      child: Container(
-        height: 50,
-        width: MediaQuery.of(context).size.width * 0.7,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(15),
-          color: AppColors.primaryDarkColor,
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SvgPicture.asset("assets/svg/plus_outline.svg"),
-            miniHorizantalSpacer,
-            Text(
-              "Nouvelle demande de congé",
-              style: TextStyles.mediumTextStyle.copyWith(
-                fontWeight: FontWeight.bold,
-                color: AppColors.whiteDarkColor,
-              ),
-            )
-          ],
-        ),
-      ),
-    );
-  }
-
   Widget _buildCongeList() {
     return ValueListenableBuilder(
       valueListenable: conges,
@@ -185,16 +120,16 @@ class _CongeScreenState extends State<CongeScreen> {
           itemCount: value.length,
           itemBuilder: (context, index) {
             final conge = value[index];
-            return CongeCard(
+            return SupervisorCongeCard(
               conge: conge,
-              onDelete: () {
+              onAccept: () {
                 context.read<CongeBloc>().add(
-                      DeleteCongeEvent(id: conge.id!),
+                      AcceptCongeEvent(congeId: conge.id!),
                     );
               },
-              onSubmit: () {
+              onReject: () {
                 context.read<CongeBloc>().add(
-                      SubmitCongeEvent(congeId: conge.id!),
+                      RejectCongeEvent(congeId: conge.id!),
                     );
               },
             );

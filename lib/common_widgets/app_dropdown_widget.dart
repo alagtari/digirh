@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:digirh/theme/colors.dart';
 import 'package:digirh/theme/radius.dart';
@@ -12,83 +11,83 @@ class AppDropdownWidget extends StatefulWidget {
     required this.hint,
     required this.icon,
     this.initialValue,
+    this.backgroundColor = Colors.white,
   });
   final List<DropdownMenuItem> items;
-  final void Function(String) onChange;
+  final void Function(dynamic) onChange;
   final String hint;
-  final IconData icon;
+  final Widget icon;
   final String? initialValue;
+  final Color backgroundColor;
 
   @override
   State<AppDropdownWidget> createState() => _AppDropdownWidgetState();
 }
 
 class _AppDropdownWidgetState extends State<AppDropdownWidget> {
-  late ValueNotifier<String?> selectedItem;
+  late ValueNotifier<dynamic> selectedItem;
 
   @override
   void initState() {
-    selectedItem = ValueNotifier<String?>(null);
+    selectedItem = ValueNotifier<dynamic>(null);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.symmetric(horizontal: 23),
-      height: 60,
-      decoration: const BoxDecoration(
-        color: AppColors.appBackgroundColor,
-        borderRadius: BorderRadius.all(
-          CustomRaius.smallRadius,
-        ),
+    return Theme(
+      data: Theme.of(context).copyWith(
+        canvasColor: Colors.white,
       ),
-      child: Row(
-        children: [
-          Icon(
+      child: Container(
+        width: double.infinity,
+        padding: const EdgeInsets.symmetric(horizontal: 10),
+        height: 60,
+        decoration: BoxDecoration(
+          color: widget.backgroundColor,
+          borderRadius: const BorderRadius.all(
+            CustomRaius.smallRadius,
+          ),
+        ),
+        child: Row(
+          children: [
             widget.icon,
-            color: AppColors.greyDarkColor,
-            size: 20,
-          ),
-          const SizedBox(
-            width: 12,
-          ),
-          ValueListenableBuilder(
-            valueListenable: selectedItem,
-            builder: (context, item, child) {
-              return Expanded(
-                child: DropdownButton(
-                  hint: Text(
-                    widget.hint,
+            ValueListenableBuilder(
+              valueListenable: selectedItem,
+              builder: (context, item, child) {
+                return Expanded(
+                  child: DropdownButton(
+                    hint: Text(
+                      widget.hint,
+                      style: TextStyles.mediumTextStyle.copyWith(
+                        color: AppColors.greyExtraDarkColor,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                    value: item ?? widget.initialValue,
+                    items: widget.items,
+                    icon: const Icon(
+                      Icons.keyboard_arrow_down,
+                      color: AppColors.greyExtraDarkColor,
+                    ),
+                    underline: Container(),
+                    onChanged: (value) {
+                      setState(() {
+                        selectedItem.value = value;
+                      });
+                      widget.onChange(value);
+                    },
+                    isExpanded: true,
                     style: TextStyles.mediumTextStyle.copyWith(
-                      color: AppColors.greyDarkColor,
+                      color: AppColors.greyExtraDarkColor,
                       fontWeight: FontWeight.w500,
                     ),
                   ),
-                  value: item ?? widget.initialValue,
-                  items: widget.items,
-                  icon: const Icon(
-                    Icons.keyboard_arrow_down,
-                    color: AppColors.greyDarkColor,
-                  ),
-                  underline: Container(),
-                  onChanged: (value) {
-                    setState(() {
-                      selectedItem.value = value;
-                    });
-                    widget.onChange(value);
-                  },
-                  isExpanded: true,
-                  style: TextStyles.mediumTextStyle.copyWith(
-                    color: AppColors.greyDarkColor,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              );
-            },
-          ),
-        ],
+                );
+              },
+            ),
+          ],
+        ),
       ),
     );
   }

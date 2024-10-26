@@ -1,38 +1,41 @@
-import 'package:digirh/core/enums/leave_status.dart';
+import 'package:digirh/core/enums/aggreement_leave_status.dart';
 import 'package:digirh/core/enums/leave_type.dart';
 import 'package:digirh/core/util/utils.dart';
-import 'package:digirh/features/conge/data/models/conge_model.dart';
-import 'package:digirh/features/conge/presentation/widgets/approval_bottom_sheet.dart';
-import 'package:digirh/features/conge/presentation/widgets/controls_dialog.dart';
-import 'package:digirh/features/conge/presentation/widgets/draft_dialog.dart';
+import 'package:digirh/features/conge/data/models/supervisor_conge_model.dart';
+import 'package:digirh/features/conge/presentation/widgets/accept_reject_conge_dialog.dart';
 import 'package:digirh/theme/colors.dart';
 import 'package:digirh/theme/spacers.dart';
 import 'package:digirh/theme/text_styles.dart';
 import 'package:flutter/material.dart';
 
-class CongeCard extends StatelessWidget {
-  const CongeCard({
+class SupervisorCongeCard extends StatelessWidget {
+  const SupervisorCongeCard({
     super.key,
     required this.conge,
-    required this.onDelete,
-    required this.onSubmit,
+    required this.onAccept,
+    required this.onReject,
   });
 
-  final LeaveModel conge;
-  final Function() onDelete;
-  final Function() onSubmit;
+  final SupervisorLeaveModel conge;
+  final Function onAccept;
+  final Function onReject;
 
   @override
   Widget build(BuildContext context) {
-    final statusColor = leaveStatusToColor(conge.status!);
+    final statusColor = agreementLeaveStatusToColor(conge.desisionStatus);
     return GestureDetector(
       onTap: () {
-        showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return ControlsDialog(onDelete: onDelete);
-          },
-        );
+        if (conge.desisionStatus == AgreementLeaveStatus.waiting) {
+          showDialog(
+            context: context,
+            builder: (context) {
+              return AcceptRejectCongeDialog(
+                onAccept: onAccept,
+                onReject: onReject,
+              );
+            },
+          );
+        }
       },
       child: Container(
         width: double.infinity,
@@ -102,39 +105,18 @@ class CongeCard extends StatelessWidget {
                   ],
                 ),
                 const Expanded(child: SizedBox()),
-                GestureDetector(
-                  onTap: () {
-                    if (conge.status == LeaveStatus.draft) {
-                      showDialog(
-                        context: context,
-                        builder: (context) {
-                          return DraftDialog(onSubmit: onSubmit);
-                        },
-                      );
-                    } else {
-                      showModalBottomSheet(
-                        context: context,
-                        builder: (context) {
-                          return ApprovalBottomSheet(
-                            congeId: conge.id!,
-                          );
-                        },
-                      );
-                    }
-                  },
-                  child: Container(
-                    width: 75,
-                    padding: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      color: statusColor.withOpacity(.1),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Center(
-                      child: Text(
-                        leaveStatusToString(conge.status!),
-                        style: TextStyles.smallTextStyle
-                            .copyWith(color: statusColor),
-                      ),
+                Container(
+                  width: 90,
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: statusColor.withOpacity(.1),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Center(
+                    child: Text(
+                      agreementLeaveStatusToString(conge.desisionStatus),
+                      style: TextStyles.smallTextStyle
+                          .copyWith(color: statusColor),
                     ),
                   ),
                 ),
